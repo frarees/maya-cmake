@@ -28,10 +28,16 @@
 SET(MAYA_VERSION_2012 TRUE)
 
 IF(APPLE)
+  FIND_PATH(MAYA_BASE_DIR include/maya/MFn.h PATH
+
   SET(MAYA_LOCATION /Applications/Autodesk/maya2012/Maya.app/Contents)
-ELSE()
-  MESSAGE(FATAL_ERROR "Platform not supported yet. ")
 ENDIF(APPLE)
+IF(UNIX)
+  SET(MAYA_LOCATION /usr/autodesk/maya2012)
+ENDIF(UNIX)
+IF(WIN32)
+  SET(MAYA_LOCATION "C:/Program Files/Autodesk/Maya2011")
+ENDIF(WIN32)
 
 FIND_PATH(MAYA_INCLUDE_DIR maya/OpenMayaMac.h
   PATHS
