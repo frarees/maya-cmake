@@ -27,24 +27,53 @@
 
 SET(MAYA_VERSION_2012 TRUE)
 
+## add one to this list to match your install if none match
+
 IF(APPLE)
   FIND_PATH(MAYA_BASE_DIR include/maya/MFn.h PATH
-
-  SET(MAYA_LOCATION /Applications/Autodesk/maya2012/Maya.app/Contents)
+  	ENV MAYA_LOCATION
+  	"/Applications/Autodesk/maya2012.17/Maya.app/Contents"
+  	"/Applications/Autodesk/maya2012/Maya.app/Contents"
+  	"/Applications/Autodesk/maya2011/Maya.app/Contents"
+  	"/Applications/Autodesk/maya2010/Maya.app/Contents"
+  	)
 ENDIF(APPLE)
+
 IF(UNIX)
-  SET(MAYA_LOCATION /usr/autodesk/maya2012)
+  FIND_PATH(MAYA_BASE_DIR include/maya/MFn.h PATH
+  	ENV MAYA_LOCATION
+  	"/usr/autodesk/maya2012.17-x64"
+  	"/usr/autodesk/maya2012-x64"
+  	"/usr/autodesk/maya2011-x64"
+  	"/usr/autodesk/maya2010-x64"
+	)
 ENDIF(UNIX)
+ 
 IF(WIN32)
-  SET(MAYA_LOCATION "C:/Program Files/Autodesk/Maya2011")
+  FIND_PATH(MAYA_BASE_DIR include/maya/MFn.h PATH
+  	ENV MAYA_LOCATION
+	"C:/Program Files/Autodesk/Maya2012-x64"
+	"C:/Program Files/Autodesk/Maya2012"
+	"C:/Program Files (x86)/Autodesk/Maya2012"
+	"C:/Autodesk/maya-2012x64"
+	"C:/Program Files/Autodesk/Maya2011-x64"
+	"C:/Program Files/Autodesk/Maya2011"
+	"C:/Program Files (x86)/Autodesk/Maya2011"
+	"C:/Autodesk/maya-2011x64"
+	"C:/Program Files/Autodesk/Maya2010-x64"
+	"C:/Program Files/Autodesk/Maya2010"
+	"C:/Program Files (x86)/Autodesk/Maya2010"
+	"C:/Autodesk/maya-2010x64"
+	)
 ENDIF(WIN32)
 
-FIND_PATH(MAYA_INCLUDE_DIR maya/OpenMayaMac.h
+FIND_PATH(MAYA_INCLUDE_DIR maya/MFn.h
   PATHS
     ENV MAYA_LOCATION
-    ${MAYA_LOCATION_DEFAULT}
+    ${MAYA_BASE_DIR}
   PATH_SUFFIXES
-    ../../devkit/include
+    ../../devkit/include/
+	include/
   DOC "Maya's devkit headers path"
 )
 
@@ -79,9 +108,10 @@ FOREACH(MAYA_LIB
   FIND_LIBRARY(MAYA_${MAYA_LIB}_LIBRARY ${MAYA_LIB}
     PATHS
       ENV MAYA_LOCATION
-      ${MAYA_LOCATION}
+      ${MAYA_BASE_DIR}
     PATH_SUFFIXES
       MacOS/
+	  lib/
     DOC "Maya's ${MAYA_LIB} library path"
   )
   
@@ -91,9 +121,10 @@ ENDFOREACH(MAYA_LIB)
 FIND_PROGRAM(MAYA_EXECUTABLE Maya
   PATHS
     ENV MAYA_LOCATION
-    ${MAYA_LOCATION}
+    ${MAYA_BASE_DIR}
   PATH_SUFFIXES
     MacOS/
+	bin/
   DOC "Maya's executable path"
 )
 
