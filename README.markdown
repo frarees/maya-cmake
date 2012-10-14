@@ -13,7 +13,7 @@ Include FindMaya.cmake in your user-created CMake module path. If you don't have
 
 ## Current state
 
-This module currently works only for a Maya 2012 distribution installed on Mac OS X. It needs to be extensively expanded. See *collaboration*. 
+This module should work for Maya 2010, 2011, 2012 and 2013 distribution installed on either Windows, Mac OS X or Linux systems. It needs to be extensively expanded. See *collaboration*. 
 
 ## Collaboration
 
